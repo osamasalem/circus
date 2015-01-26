@@ -11,7 +11,6 @@ cptr circus_object_create_size(csize size)
 {
 	object* p = (object*)malloc( sizeof(object) + size);
 	cptr ret = ((cptr)p) + (sizeof(object)) ;
-	printf("Addrees : 0x%x\n",(int)ret);
 	if(p)
 	{
 		p->ref = 1;
@@ -33,7 +32,6 @@ cresult circus_object_refer(cptr p)
 cresult circus_object_release(cptr p)
 {
 	object* obj = ( ((cptr)p) - sizeof(object));
-	printf("Addrees : 0x%x\n",(int)obj);
 	pthread_spin_lock(&obj->lock);
 	obj->ref--;
 	if(!obj->ref)
