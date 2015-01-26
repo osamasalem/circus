@@ -21,7 +21,7 @@ struct _object
 #define circus_object_create(__type) \
 		(__type*)circus_object_create_size( sizeof(__type) )
 
-object* circus_object_create_size(csize size);
+cptr circus_object_create_size(csize size);
 
 cresult circus_object_refer(cptr p);
 cresult circus_object_release(cptr p);

@@ -6,22 +6,25 @@
  */
 
 #include "object.h"
-
-object* circus_object_create_size(csize size)
+#include <stdio.h>
+cptr circus_object_create_size(csize size)
 {
 	object* p = (object*)malloc( sizeof(object) + size);
+	cptr ret = ((cptr)p) + (sizeof(object)) ;
+	printf("Addrees : 0x%x\n",(int)ret);
 	if(p)
 	{
 		p->ref = 1;
 		pthread_spin_init(&p->lock,0);
 	}
-	return (p+sizeof(object));
+
+	return ( ret );
 
 }
 
 cresult circus_object_refer(cptr p)
 {
-	object* obj = ( p - sizeof(obj) );
+	object* obj = ( ((cptr)p) - sizeof(object) );
 	pthread_spin_lock(&obj->lock);
 	obj->ref++;
 	pthread_spin_unlock(&obj->lock);
@@ -29,7 +32,8 @@ cresult circus_object_refer(cptr p)
 }
 cresult circus_object_release(cptr p)
 {
-	object* obj = ( p - sizeof(obj) );
+	object* obj = ( ((cptr)p) - sizeof(object));
+	printf("Addrees : 0x%x\n",(int)obj);
 	pthread_spin_lock(&obj->lock);
 	obj->ref--;
 	if(!obj->ref)

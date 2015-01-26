@@ -57,6 +57,12 @@ int main(void) {
 	circus_engine_start(CIRCUS_ENGINE_STARTMODE_SYNC);
 
 
+	/*
+	component_factory* p = circus_object_create(component_factory);
+	circus_object_refer(p);
+	circus_object_release(p);
+	circus_object_release(p);
+	*/
 
 
 

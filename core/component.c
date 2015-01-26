@@ -58,9 +58,6 @@ cresult circus_componentfactory_cleanup()
 		cf = component_factory_list;
 		sglib_component_factory_delete(&component_factory_list,component_factory_list);
 		circus_object_release(cf);
-		//free((void*)cf);
 	}
-	
-
 	return CIRCUS_RESULT_SUCCESS;
 }
