@@ -33,7 +33,6 @@ typedef union _cflags
 
 struct _connection
 {
-	object obj;
 	component* dest;
 	cflags f;
 	pthread_mutex_t mtx;

@@ -89,18 +89,26 @@ void mycomp1_act(component* c,pin* p)
 
 
 component_vtbl mycomp1_vtbl={
-		mycomp1_initialize,
 		mycomp1_prepare,
 		mycomp1_getpinbyname,
 		mycomp1_act
 };
 
 
-component* mycomp1_getinstance()
+component* mycomp1_getinstance(cstring param)
 {
 	mycomp1* comp;
 	comp = malloc(sizeof(mycomp1));
 	comp->c.vtbl = &mycomp1_vtbl;
+	comp->hin=0;
+	comp->hout=0;
+	comp->out=0;
+
+	pinmeta pmhout,pmhin;
+	mycomp1_getpinbyname(&comp->c,"hin",&pmhin);
+	mycomp1_getpinbyname(&comp->c,"hout",&pmhout);
+	circus_pin_connect(&pmhin,&pmhout);
+
 	return (component*)comp;
 }
 
@@ -135,6 +143,8 @@ cresult mycomp2_initialize(component* c)
 	comp->in=0;
 	return CIRCUS_RESULT_SUCCESS;
 }
+
+
 cresult mycomp2_prepare(component* c)
 {
 	return CIRCUS_RESULT_SUCCESS;
@@ -151,17 +161,17 @@ void mycomp2_act(component* c,pin* p)
 
 
 component_vtbl mycomp2_vtbl={
-		mycomp2_initialize,
 		mycomp2_prepare,
 		mycomp2_getpinbyname,
 		mycomp2_act
 };
 
-component* mycomp2_getinstance()
+component* mycomp2_getinstance(cstring param)
 {
 	mycomp2* comp;
 	comp = (mycomp2*)malloc(sizeof(mycomp2));
 	comp->c.vtbl = &mycomp2_vtbl;
+	comp->in=0;
 	return (component*)comp;
 }
 

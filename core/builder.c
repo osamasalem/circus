@@ -17,7 +17,7 @@ cresult circus_modulecomponent_init()
 	return CIRCUS_RESULT_SUCCESS;
 }
 
-cresult circus_modulecomponent_add(module_component** mc,cstring compname,cstring name)
+cresult circus_modulecomponent_add(module_component** mc,cstring compname,cstring name,cstring extra)
 {
 	module_component u;
 	module_component* pu;
@@ -30,7 +30,7 @@ cresult circus_modulecomponent_add(module_component** mc,cstring compname,cstrin
 	pu = sglib_module_component_find_member(*mc,&u);
 	if (!pu)
 	{
-		comp= circus_componentfactory_getinstanceof(compname);
+		comp= circus_componentfactory_getinstanceof(compname,extra);
 		if(!comp)
 			return CIRCUS_RESULT_FAIL;
 		pu = (module_component*)malloc(sizeof(module_component));
@@ -55,7 +55,7 @@ cresult circus_modulecomponent_initialize(module_component** mc)
 			u!=NULL;
 			u=sglib_module_component_it_next(&uit))
 	{
-		u->comp->vtbl->initialize(u->comp);
+		//u->comp->vtbl->initialize(u->comp);
 	}
 	return CIRCUS_RESULT_SUCCESS;
 }

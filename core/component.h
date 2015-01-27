@@ -26,7 +26,6 @@
 
 struct _component_vtbl
 {
-	cresult (*initialize)(component* c);
 	cresult (*prepare)(component* c);
 	cresult (*getpinbyname)(component* c,cstring name,struct _pinmeta* pm);
 	void (*act)(component* c,pin* p);
@@ -56,7 +55,7 @@ SGLIB_DEFINE_RBTREE_PROTOTYPES(component_factory, left, right, color, CF_COMPARA
 
 cresult circus_componentfactory_initialize();
 cresult circus_componentfactory_register(cstring name,component* (*getInstance)());
-component* circus_componentfactory_getinstanceof(cstring name);
+component* circus_componentfactory_getinstanceof(cstring name,cstring param);
 cresult circus_componentfactory_cleanup();
 
 #endif /* COMPONENT_H_ */

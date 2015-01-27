@@ -26,7 +26,7 @@ module_component* global_module_component_list;
 SGLIB_DEFINE_RBTREE_PROTOTYPES(module_component, left, right, color, CB_COMPARATOR);
 
 cresult circus_modulecomponent_init();
-cresult circus_modulecomponent_add(module_component** mc,cstring compname,cstring name);
+cresult circus_modulecomponent_add(module_component** mc,cstring compname,cstring name,cstring extra);
 cresult circus_modulecomponent_initialize(module_component** mc);
 cresult circus_modulecomponent_connect(module_component** mc,cstring srccomp,
 											cstring srcpin,

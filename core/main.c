@@ -48,10 +48,10 @@ int main(void) {
 	circus_componentfactory_initialize();
 	circus_componentfactory_register("com.circus.std.counter",mycomp1_getinstance);
 	circus_componentfactory_register("com.circus.io.print",mycomp2_getinstance);
-	circus_modulecomponent_add(&mc,"com.circus.std.counter","x1");
-	circus_modulecomponent_add(&mc,"com.circus.io.print","x2");
+	circus_modulecomponent_add(&mc,"com.circus.std.counter","x1","linear");
+	circus_modulecomponent_add(&mc,"com.circus.io.print","x2","stdout");
 	circus_componentfactory_cleanup();
-	circus_modulecomponent_initialize(&mc);
+//	circus_modulecomponent_initialize(&mc);
 	circus_modulecomponent_connect(&mc,"x1","out","x2","in");
 	circus_modulecomponent_prepare(&mc);
 	circus_engine_start(CIRCUS_ENGINE_STARTMODE_SYNC);

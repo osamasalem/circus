@@ -36,7 +36,7 @@ cresult circus_componentfactory_register(cstring name,component* (*getInstance)(
 	return CIRCUS_RESULT_FAIL;
 }
 
-component* circus_componentfactory_getinstanceof(cstring name)
+component* circus_componentfactory_getinstanceof(cstring name,cstring param)
 {
 	component_factory cfi;
 	component_factory* pcf=0;
@@ -46,7 +46,7 @@ component* circus_componentfactory_getinstanceof(cstring name)
 	if(!pcf)
 		return 0;
 
-	return pcf->getinstance();
+	return pcf->getinstance(param);
 
 }
 
