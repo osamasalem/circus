@@ -62,6 +62,19 @@ typedef union _cvalue
 }cvalue;
 
 
+typedef
+struct _cbit {
+	cbool value:1;
+}cbit;
+
+typedef union _cflags
+{
+	cword w;
+	cbyte bytes[sizeof(cword)];
+	cbit bits[sizeof(cword)*8];
+}cflags ;
+
+
 
 
 

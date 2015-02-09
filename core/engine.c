@@ -51,7 +51,7 @@ void circus_engine_thread_proc(void* conrxt)
 			component* comp= (component*) (c->dest);
 
 			pthread_mutex_lock(&c->mtx);
-			c->f.flags.triggered=0;
+			c->f.bits[CIRCUS_CONFLAGS_TRIGGERED].value=0;
 			pthread_mutex_unlock(&c->mtx);
 			comp->vtbl->act(c->dest,c);
 		}

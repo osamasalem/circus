@@ -35,6 +35,7 @@ struct _component_vtbl
 struct _component
 {
 	component_vtbl* vtbl;
+	cflags f;
 };
 
 struct _component_factory

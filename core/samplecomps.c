@@ -22,6 +22,22 @@ typedef struct _mycomp1
 	pin out;
 }mycomp1;
 
+/*
+struct _pinmeta
+{
+	typemeta tm;
+	pin* ppin;
+	cpindirection dir;
+	struct _component* cmponent;
+};
+
+struct _typemeta
+{
+	ctype type;
+	csize size[MAX_ARRAY_DIMENSIONS];
+};
+*/
+
 cresult mycomp1_getpinbyname(component* c,cstring name,pinmeta* pm)
 {
 	mycomp1* comp =(mycomp1*)c;
@@ -47,21 +63,6 @@ cresult mycomp1_getpinbyname(component* c,cstring name,pinmeta* pm)
 	return CIRCUS_RESULT_FAIL;
 }
 
-
-cresult mycomp1_initialize(component* c)
-{
-	mycomp1* comp =(mycomp1*)c;
-	comp->hin=0;
-	comp->hout=0;
-	comp->out=0;
-
-	pinmeta pmhout,pmhin;
-	mycomp1_getpinbyname(c,"hin",&pmhin);
-	mycomp1_getpinbyname(c,"hout",&pmhout);
-	circus_pin_connect(&pmhin,&pmhout);
-
-	return CIRCUS_RESULT_SUCCESS;
-}
 cresult mycomp1_prepare(component* c)
 {
 	mycomp1* comp =(mycomp1*)c;
@@ -137,12 +138,6 @@ cresult mycomp2_getpinbyname(component* c,cstring name,pinmeta* pm)
 }
 
 
-cresult mycomp2_initialize(component* c)
-{
-	mycomp2* comp =(mycomp2*)c;
-	comp->in=0;
-	return CIRCUS_RESULT_SUCCESS;
-}
 
 
 cresult mycomp2_prepare(component* c)

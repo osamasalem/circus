@@ -17,16 +17,12 @@
 #include <pthread.h>
 
 
-
-typedef union _cflags
+typedef enum connection_flags
 {
-	cword w;
-	struct _inner_flags
-	{
-		cbool triggered	: 1;
-		cbool initd		: 1;
-	}flags;
-}cflags ;
+	CIRCUS_CONFLAGS_INITIATED,
+	CIRCUS_CONFLAGS_TRIGGERED
+};
+
 
 
 //typedef struct _component component;
