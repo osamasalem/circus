@@ -7,6 +7,10 @@
 
 #include "object.h"
 #include <stdio.h>
+#include<stdlib.h>
+
+
+
 cptr circus_object_create_size(csize size)
 {
 	object* p = (object*)malloc( sizeof(object) + size);
@@ -21,15 +25,15 @@ cptr circus_object_create_size(csize size)
 
 }
 
-cresult circus_object_refer(cptr p)
+void circus_object_refer(cptr p)
 {
 	object* obj = ( ((cptr)p) - sizeof(object) );
 	pthread_spin_lock(&obj->lock);
 	obj->ref++;
 	pthread_spin_unlock(&obj->lock);
-	return CIRCUS_RESULT_SUCCESS;
 }
-cresult circus_object_release(cptr p)
+
+void circus_object_release(cptr p)
 {
 	object* obj = ( ((cptr)p) - sizeof(object));
 	pthread_spin_lock(&obj->lock);
@@ -39,12 +43,22 @@ cresult circus_object_release(cptr p)
 		pthread_spin_unlock(&obj->lock);
 		pthread_spin_destroy(&obj->lock);
 		free((void*)obj);
-		return CIRCUS_RESULT_SUCCESS;
+		return;
 	}
 	pthread_spin_unlock(&obj->lock);
-	return CIRCUS_RESULT_SUCCESS;
 }
 
-//cresult circus_object_lock(object* obj);
-//cresult circus_object_unlock(object* obj);
+void circus_object_lock(cptr p)
+{
+	object* obj = ( ((cptr)p) - sizeof(object));
+
+	pthread_spin_lock(&obj->lock);
+}
+
+void circus_object_unlock(cptr p)
+{
+	object* obj = ( ((cptr)p) - sizeof(object));
+
+	pthread_spin_unlock(&obj->lock);
+}
 

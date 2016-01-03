@@ -24,18 +24,20 @@
 
 //typedef struct _component component;
 
+//#define CIRCUS_COMPFLAGS_TRIGGERED 0
+
 struct _component_vtbl
 {
 	cresult (*prepare)(component* c);
 	cresult (*getpinbyname)(component* c,cstring name,struct _pinmeta* pm);
-	void (*act)(component* c,pin* p);
+	void (*act)(component* c,pin p);
 
 };
 
 struct _component
 {
 	component_vtbl* vtbl;
-	cflags f;
+//	cflags f;
 };
 
 struct _component_factory
@@ -54,9 +56,9 @@ component_factory* component_factory_list;
 
 SGLIB_DEFINE_RBTREE_PROTOTYPES(component_factory, left, right, color, CF_COMPARATOR);
 
-cresult circus_componentfactory_initialize();
-cresult circus_componentfactory_register(cstring name,component* (*getInstance)());
-component* circus_componentfactory_getinstanceof(cstring name,cstring param);
-cresult circus_componentfactory_cleanup();
+cresult CIRCUS_API_ENTRY circus_componentfactory_initialize();
+cresult CIRCUS_API_ENTRY circus_componentfactory_register(cstring name,component* (*getInstance)());
+component* CIRCUS_API_ENTRY circus_componentfactory_getinstanceof(cstring name,cstring param);
+cresult CIRCUS_API_ENTRY circus_componentfactory_cleanup();
 
 #endif /* COMPONENT_H_ */

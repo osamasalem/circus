@@ -16,12 +16,17 @@
 #include "engine.h"
 #include "samplecomps.h"
 #include "builder.h"
-
+#include "hash.h"
+#include <string.h>
+#include <conio.h>
 
 #include <pthread.h>
 
-int main(void) {
-	/*
+
+int CIRCUS_API_ENTRY entry(void) {
+
+
+			/*
 	inputpin_cint pin1;
 	outputpin_cint pin2;
 
@@ -44,7 +49,7 @@ int main(void) {
 
 	module_component* mc=0;
 
-	circus_engine_initialize(1000,5);
+	circus_engine_initialize(1000,1);
 	circus_componentfactory_initialize();
 	circus_componentfactory_register("com.circus.std.counter",mycomp1_getinstance);
 	circus_componentfactory_register("com.circus.io.print",mycomp2_getinstance);
@@ -55,9 +60,19 @@ int main(void) {
 	circus_modulecomponent_connect(&mc,"x1","out","x2","in");
 	circus_modulecomponent_prepare(&mc);
 	circus_engine_start(CIRCUS_ENGINE_STARTMODE_SYNC);
-
-
+	getch();
 	/*
+	int i;
+	__sync_fetch_and_add(&i,1);
+
+	int a[8] = {0,1,2,3,4};
+	int i;
+	for ( i=0;i<8;i++)
+	{
+		printf("%d",a[i]);
+	}
+	//printf("%x\n",circus_hash_data("Osama",6));
+
 	component_factory* p = circus_object_create(component_factory);
 	circus_object_refer(p);
 	circus_object_release(p);
@@ -66,8 +81,6 @@ int main(void) {
 
 
 
-
-	//printf("%d\n\n",CIEL4(sizeof(connection_cint)+(0*sizeof(cint))));
 
 	return 0;
 }

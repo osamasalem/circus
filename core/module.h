@@ -13,7 +13,7 @@
 typedef struct _module_scheme_pin
 {
 	cstring name;
-//	typemeta tm;
+	typemeta tm;
 	struct _module_scheme_pin* next;
 }module_scheme_pin;
 
@@ -34,8 +34,8 @@ typedef struct _module_scheme_connection
 {
 	cstring srccomp;
 	cstring srcpin;
-	cstring srccomp;
-	cstring srcpin;
+	cstring dstcomp;
+	cstring dstpin;
 	struct _module_scheme_connection* next;
 }module_scheme_connection;
 
@@ -55,6 +55,8 @@ typedef struct _module_scheme
 	struct _module_scheme* left;
 
 }module_scheme;
+
+module_scheme* global_module_scheme;
 
 /*
 typedef struct _module

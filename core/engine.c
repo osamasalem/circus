@@ -1,5 +1,5 @@
 /*
- * engine.c
+= * engine.c
  *
  *  Created on: ??þ/??þ/????
  *      Author: Osama
@@ -7,7 +7,8 @@
 
 
 #include "engine.h"
-#include "malloc.h"
+#include <stdlib.h>
+
 
 
 engine main_engine;
@@ -35,25 +36,18 @@ void circus_engine_thread_proc(void* conrxt)
 		pthread_mutex_lock(&main_engine.mtx);
 		c=0;
 		loop =0;
+
 		if(!sglib_engine_is_empty(&main_engine))
 		{
 			c= sglib_engine_first_element(&main_engine);
 			sglib_engine_delete(&main_engine);
 			loop=1;
 		}
-
-
-
 		pthread_mutex_unlock(&main_engine.mtx);
 
 		if(c)
 		{
-			component* comp= (component*) (c->dest);
-
-			pthread_mutex_lock(&c->mtx);
-			c->f.bits[CIRCUS_CONFLAGS_TRIGGERED].value=0;
-			pthread_mutex_unlock(&c->mtx);
-			comp->vtbl->act(c->dest,c);
+			c->dest->vtbl->act(c->dest,c);
 		}
 	}
 }
@@ -74,9 +68,11 @@ cresult circus_engine_start(cenginestartmode esm)
 
 cresult circus_engine_initialize(csize queue_size,csize threads)
 {
-	main_engine.tasks = (connection**)malloc(sizeof(connection*)*queue_size);
+	main_engine.tasks = (connection**)
+			malloc( sizeof(connection*) * queue_size );
 	main_engine.queue_size = queue_size;
-	main_engine.thrds = (pthread_t*)malloc(sizeof(pthread_t)*threads) ;
+	main_engine.thrds = (pthread_t*)
+			malloc( sizeof(pthread_t) * threads ) ;
 	main_engine.thread_size = threads;
 	pthread_mutex_init(&main_engine.mtx,0);
 	return CIRCUS_RESULT_SUCCESS;

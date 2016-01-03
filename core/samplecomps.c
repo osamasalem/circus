@@ -73,13 +73,13 @@ cresult mycomp1_prepare(component* c)
 	return CIRCUS_RESULT_SUCCESS;
 }
 
-void mycomp1_act(component* c,pin* p)
+void mycomp1_act(component* c,pin p)
 {
 	mycomp1* comp =(mycomp1*)c;
 	cint i;
 	circus_pin_getcint(comp->hin,&i);
 	i++;
-	if (i<100)
+	if (i)
 	{
 		if(comp->out)circus_pin_setcint(comp->out,i);
 		if(comp->hout)circus_pin_setcint(comp->hout,i);
@@ -99,7 +99,7 @@ component_vtbl mycomp1_vtbl={
 component* mycomp1_getinstance(cstring param)
 {
 	mycomp1* comp;
-	comp = malloc(sizeof(mycomp1));
+	comp = circus_object_create(mycomp1);
 	comp->c.vtbl = &mycomp1_vtbl;
 	comp->hin=0;
 	comp->hout=0;
@@ -145,7 +145,7 @@ cresult mycomp2_prepare(component* c)
 	return CIRCUS_RESULT_SUCCESS;
 }
 
-void mycomp2_act(component* c,pin* p)
+void mycomp2_act(component* c,pin p)
 {
 	mycomp2* comp =(mycomp2*)c;
 	cint i;
@@ -164,7 +164,8 @@ component_vtbl mycomp2_vtbl={
 component* mycomp2_getinstance(cstring param)
 {
 	mycomp2* comp;
-	comp = (mycomp2*)malloc(sizeof(mycomp2));
+	//comp = (mycomp2*)malloc(sizeof(mycomp2));
+	comp = circus_object_create(mycomp2);
 	comp->c.vtbl = &mycomp2_vtbl;
 	comp->in=0;
 	return (component*)comp;

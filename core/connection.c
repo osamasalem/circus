@@ -39,8 +39,9 @@ connection* circus_connection_create(typemeta* tm)
 		default: return 0;
 	}
 
-	pthread_mutex_init(&con->mtx,0);
-	con->f.w=0;
+
+	//pthread_mutex_init(&con->mtx,0);
+	con->f.word=0;
 	con->dest =0;
 	return con;
 }
@@ -53,32 +54,58 @@ connection* circus_connection_create(typemeta* tm)
 //CIRCUS_CONNECTION_FUNC_DEF(cptr)
 //CIRCUS_CONNECTION_FUNC_DEF(cdouble)
 //CIRCUS_CONNECTION_FUNC_DEF(clonglong)
+/*
+cresult circus_pin_setvoid(connection* conc)
+{
+	connection_cint* con = (connection_cint*)conc;
+	circus_object_lock(con);
+	if(!con->conn.f.bits[CIRCUS_CONFLAGS_TRIGGERED].value)
+	{
+		con->conn.f.bits[CIRCUS_CONFLAGS_TRIGGERED].value = 1;
+		circus_engine_notify(conc);
+	}
+	circus_object_unlock(con);
 
+	return CIRCUS_RESULT_SUCCESS;
+}
+*/
+/*
+cresult circus_pin_getvoid(connection* conc)
+{
+	connection_cint* con = (connection_cint*)conc;
+	circus_object_lock(con);
+	if(!con->conn.f.bits[CIRCUS_CONFLAGS_INITIATED].value)
+		return CIRCUS_RESULT_FAIL;
+	circus_object_unlock(con);
+	return CIRCUS_RESULT_SUCCESS;
+}
+*/
 cresult circus_pin_setcint(connection* conc,cint value)
 {
 	connection_cint* con = (connection_cint*)conc;
-	pthread_mutex_lock(&con->conn.mtx);
+	circus_object_lock(con);
 	con->data[0]=value;
 	if(!con->conn.f.bits[CIRCUS_CONFLAGS_TRIGGERED].value)
 	{
 		con->conn.f.bits[CIRCUS_CONFLAGS_TRIGGERED].value = 1;
 		circus_engine_notify(conc);
-
 	}
-	con->conn.f.bits[CIRCUS_CONFLAGS_INITIATED].value=1;
-	pthread_mutex_unlock(&con->conn.mtx);
+	circus_object_unlock(con);
 	return CIRCUS_RESULT_SUCCESS;
 }
 
 cresult circus_pin_getcint(connection* conc,cint* pvalue)
 {
 	connection_cint* con = (connection_cint*)conc;
-	cresult res=CIRCUS_RESULT_SUCCESS;
-	pthread_mutex_lock(&con->conn.mtx);
+	cresult res = CIRCUS_RESULT_FAIL;
+	circus_object_lock(con);
 	*pvalue = con->data[0];
-	if(con->conn.f.bits[CIRCUS_CONFLAGS_INITIATED].value)
-		res=CIRCUS_RESULT_FAIL;
-	pthread_mutex_unlock(&con->conn.mtx);
+	if(con->conn.f.bits[CIRCUS_CONFLAGS_TRIGGERED].value)
+	{
+		con->conn.f.bits[CIRCUS_CONFLAGS_TRIGGERED].value = 0;
+		res =CIRCUS_RESULT_SUCCESS;
+	}
+	circus_object_unlock(con);
 	return res;
 }
 /*

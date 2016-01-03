@@ -8,16 +8,17 @@
 #include "global.h"
 #include "component.h"
 #include "stdlib.h"
+#include <string.h>
 
 SGLIB_DEFINE_RBTREE_FUNCTIONS(component_factory, left, right, color, CF_COMPARATOR);
 
-cresult circus_componentfactory_initialize()
+cresult CIRCUS_API_ENTRY circus_componentfactory_initialize()
 {
 	component_factory_list = 0;
 	return CIRCUS_RESULT_SUCCESS;
 }
 
-cresult circus_componentfactory_register(cstring name,component* (*getInstance)())
+cresult CIRCUS_API_ENTRY circus_componentfactory_register(cstring name,component* (*getInstance)())
 {
 	component_factory cf;
 	component_factory* pcf;
@@ -36,7 +37,7 @@ cresult circus_componentfactory_register(cstring name,component* (*getInstance)(
 	return CIRCUS_RESULT_FAIL;
 }
 
-component* circus_componentfactory_getinstanceof(cstring name,cstring param)
+component* CIRCUS_API_ENTRY circus_componentfactory_getinstanceof(cstring name,cstring param)
 {
 	component_factory cfi;
 	component_factory* pcf=0;
@@ -50,7 +51,7 @@ component* circus_componentfactory_getinstanceof(cstring name,cstring param)
 
 }
 
-cresult circus_componentfactory_cleanup()
+cresult CIRCUS_API_ENTRY circus_componentfactory_cleanup()
 {
 	component_factory* cf;
 	while(component_factory_list)

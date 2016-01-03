@@ -19,15 +19,15 @@ struct _object
 };
 
 #define circus_object_create(__type) \
-		(__type*)circus_object_create_size( sizeof(__type) )
+		((__type*)circus_object_create_size( sizeof(__type) ) )
 
 cptr circus_object_create_size(csize size);
 
-cresult circus_object_refer(cptr p);
-cresult circus_object_release(cptr p);
+void inline circus_object_refer(cptr p);
+void circus_object_release(cptr p);
 
-//cresult circus_object_lock(object* obj);
-//cresult circus_object_unlock(object* obj);
+void inline circus_object_lock(cptr p);
+void inline circus_object_unlock(cptr p);
 
 
 #endif /* OBJECT_H_ */

@@ -8,8 +8,16 @@
 #ifndef GLOBAL_H_
 #define GLOBAL_H_
 
-#define NULL (0)
+#ifdef NULL
+	#undef NULL
+	#define NULL (0)
+#endif
 
+#ifdef CIRCUS_DLL_EXPORT
+	#define	CIRCUS_API_ENTRY	__declspec(dllexport)
+#else
+	#define	CIRCUS_API_ENTRY	__declspec(dllimport)
+#endif
 
 //((0+3)/4)*4=0
 //((1+3)/4)*4=4
@@ -22,25 +30,37 @@
 //((8+3)/4)*4=8
 
 typedef long cint;
+typedef unsigned long cuint;
+
 typedef float cfloat;
 
 typedef cint cbool;
 typedef char cchar;
-typedef char cbyte;
+typedef unsigned char cuchar;
+
+//typedef char cbyte;
+typedef unsigned char cbyte;
 
 typedef cint clong;
+typedef cuint culong;
 typedef void* cptr;
 
 typedef double cdouble;
 typedef long long clonglong;
 
-typedef clong csize;
-typedef clong cword;
+typedef culong csize;
+typedef culong cword;
 
 typedef char* cstring;
 
-#define CIEL4(i) 		( ( ( i+3 )/4 )*4 )
-#define NEW(__TYPE) 	( (__TYPE*) malloc( CIEL4( sizeof( __TYPE ) ) ) )
+
+
+#define CIEL4(i)\
+	( ( ( i+3 )/4 )*4 )
+#define NEW(__TYPE) \
+	( (__TYPE*) malloc( CIEL4( sizeof( __TYPE ) ) ) )
+#define NEWARRAY(__TYPE,__SIZE) \
+	( (__TYPE*) malloc( CIEL4( sizeof( __TYPE ) * __SIZE) ) )
 
 
 
@@ -69,13 +89,10 @@ struct _cbit {
 
 typedef union _cflags
 {
-	cword w;
-	cbyte bytes[sizeof(cword)];
-	cbit bits[sizeof(cword)*8];
+	cword 	word ;
+	cbyte 	bytes[sizeof(cword)	    ];
+	cbit 	bits [sizeof(cword) * 8 ];
 }cflags ;
-
-
-
 
 
 #define CIRCUS_ID(a,b,c,d) ( (a) | (b<<8) | (c<<16) | (d<<16) )

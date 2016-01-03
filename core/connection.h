@@ -17,13 +17,11 @@
 #include <pthread.h>
 
 
-typedef enum connection_flags
+typedef enum _connectionflags
 {
-	CIRCUS_CONFLAGS_INITIATED,
-	CIRCUS_CONFLAGS_TRIGGERED
-};
-
-
+	CIRCUS_CONFLAGS_TRIGGERED,
+	CIRCUS_CONFLAGS_INITIATED
+}connectionflags;
 
 //typedef struct _component component;
 
@@ -31,7 +29,7 @@ struct _connection
 {
 	component* dest;
 	cflags f;
-	pthread_mutex_t mtx;
+//	pthread_mutex_t mtx;
 };
 
 //typedef struct _typemeta typemeta;
@@ -51,17 +49,18 @@ typedef struct _connection_##__TYPE		\
 
 
 TYPED_CONNECTION(cint)
-TYPED_CONNECTION(cfloat)
-TYPED_CONNECTION(cbool)
-TYPED_CONNECTION(cchar)
-TYPED_CONNECTION(clong)
-TYPED_CONNECTION(cptr)
-TYPED_CONNECTION(cdouble)
-TYPED_CONNECTION(clonglong)
-TYPED_CONNECTION(cstring)
+//TYPED_CONNECTION(cfloat)
+//TYPED_CONNECTION(cbool)
+//TYPED_CONNECTION(cchar)
+//TYPED_CONNECTION(clong)
+//TYPED_CONNECTION(cptr)
+//TYPED_CONNECTION(cdouble)
+//TYPED_CONNECTION(clonglong)
+//TYPED_CONNECTION(cstring)
 
 
-#define CIRCUS_CONNECTION_ALLOC(TYPE,SIZE) ((connection*)malloc(CIEL4(sizeof(connection)+(SIZE*sizeof(TYPE)))));
+#define CIRCUS_CONNECTION_ALLOC(TYPE,SIZE) \
+((connection*)circus_object_create_size((CIEL4(sizeof(connection)+(SIZE*sizeof(TYPE))))));
 
 
 #define CIRCUS_CONNECTION_FUNC_DECL(TYPE)						\
@@ -72,14 +71,14 @@ cresult circus_pin_get_array##TYPE(connection* conc,TYPE* pvalue,csize size);
 
 
 CIRCUS_CONNECTION_FUNC_DECL(cint)
-CIRCUS_CONNECTION_FUNC_DECL(cfloat)
-CIRCUS_CONNECTION_FUNC_DECL(cbool)
-CIRCUS_CONNECTION_FUNC_DECL(cchar)
-CIRCUS_CONNECTION_FUNC_DECL(clong)
-CIRCUS_CONNECTION_FUNC_DECL(cptr)
-CIRCUS_CONNECTION_FUNC_DECL(cdouble)
-CIRCUS_CONNECTION_FUNC_DECL(clonglong)
-CIRCUS_CONNECTION_FUNC_DECL(cstring)
+//CIRCUS_CONNECTION_FUNC_DECL(cfloat)
+//CIRCUS_CONNECTION_FUNC_DECL(cbool)
+//CIRCUS_CONNECTION_FUNC_DECL(cchar)
+//CIRCUS_CONNECTION_FUNC_DECL(clong)
+//CIRCUS_CONNECTION_FUNC_DECL(cptr)
+//CIRCUS_CONNECTION_FUNC_DECL(cdouble)
+//CIRCUS_CONNECTION_FUNC_DECL(clonglong)
+//CIRCUS_CONNECTION_FUNC_DECL(cstring)
 
 
 #define CIRCUS_CONNECTION_FUNC_DEF(TYPE)						\

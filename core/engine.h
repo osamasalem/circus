@@ -12,7 +12,7 @@
 
 #include "sglib.h"
 #include "global.h"
-#include "connection.h"
+#include "component.h"
 
 typedef enum _cenginestartmode
 {
